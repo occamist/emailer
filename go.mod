@@ -1,4 +1,4 @@
-module github.com/mrwormhole/emailer
+module github.com/occamist/emailer
 
 go 1.26
 

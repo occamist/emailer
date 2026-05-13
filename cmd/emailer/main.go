@@ -15,10 +15,10 @@ import (
 
 	"github.com/hashicorp/go-retryablehttp"
 
-	"github.com/mrwormhole/emailer"
-	"github.com/mrwormhole/emailer/brevo"
-	"github.com/mrwormhole/emailer/resend"
-	"github.com/mrwormhole/emailer/sendgrid"
+	"github.com/occamist/emailer"
+	"github.com/occamist/emailer/brevo"
+	"github.com/occamist/emailer/resend"
+	"github.com/occamist/emailer/sendgrid"
 )
 
 var debugEnabled = flag.Bool("debug", false, "in debug environment")

@@ -103,7 +103,7 @@ formatters:
       sections:
         - standard
         - default
-        - prefix(github.com/mrwormhole/emailer)
+        - prefix(github.com/occamist/emailer)
       custom-order: true
   exclusions:
     generated: lax

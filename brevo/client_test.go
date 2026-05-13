@@ -14,8 +14,8 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/mrwormhole/emailer"
-	"github.com/mrwormhole/emailer/emailtest"
+	"github.com/occamist/emailer"
+	"github.com/occamist/emailer/emailtest"
 )
 
 func TestNew(t *testing.T) {

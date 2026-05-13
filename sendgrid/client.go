@@ -28,7 +28,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/mrwormhole/emailer"
+	"github.com/occamist/emailer"
 )
 
 const endpoint = "https://api.sendgrid.com/v3/mail/send"

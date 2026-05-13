@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/mrwormhole/emailer"
+	"github.com/occamist/emailer"
 )
 
 // RoundTripFunc is transport layer of HTTP client
