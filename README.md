@@ -36,6 +36,16 @@ Note: Anything that only uses oauth2 like zoho does will not be implemented here
 
 Kick the server by after having `PROVIDER` and `API_KEY` env variables then run `go run ./cmd/emailer/main.go`
 
+or run with Docker
+
+```shell
+  docker run -d \
+    -p 2345:5555 \
+    -e API_KEY=<YOUR_SECRET_KEY> \
+    -e PROVIDER=brevo \
+    ghcr.io/occamist/emailer:latest
+```
+
 ## API
 
 This endpoint allows you to send an email by providing the necessary email details in the request body as JSON.
