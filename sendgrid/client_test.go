@@ -2,7 +2,6 @@ package sendgrid
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"errors"
 	"io"
@@ -45,7 +44,7 @@ func TestSend_Success(t *testing.T) {
 		HTMLContent: "html",
 		TextContent: "text",
 	}
-	if err := client.Send(context.Background(), email); err != nil {
+	if err := client.Send(t.Context(), email); err != nil {
 		t.Errorf("Send(): %v", err)
 	}
 }
@@ -66,7 +65,7 @@ func TestSend_FaultyClient(t *testing.T) {
 		Subject:     "sub",
 		HTMLContent: "html",
 	}
-	if err := client.Send(context.Background(), email); err == nil {
+	if err := client.Send(t.Context(), email); err == nil {
 		t.Error("Send(): expected error, got nil")
 	}
 }
@@ -89,7 +88,7 @@ func TestSend_TeapotClient(t *testing.T) {
 		Subject:     "sub",
 		HTMLContent: "html",
 	}
-	if err := client.Send(context.Background(), email); err == nil {
+	if err := client.Send(t.Context(), email); err == nil {
 		t.Error("Send(): expected error, got nil")
 	}
 }
@@ -127,13 +126,13 @@ func TestSend_ProviderCodeMessage(t *testing.T) {
 		Subject:     "sub",
 		HTMLContent: "html",
 	}
-	if err := client.Send(context.Background(), email); err == nil {
+	if err := client.Send(t.Context(), email); err == nil {
 		t.Error("Send(): expected error, got nil")
 	}
 }
 
 func TestEmailHandler_BrokenRequest(t *testing.T) {
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/email", bytes.NewBuffer([]byte{'h', 'e', 'l', 'l', 'o'}))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/email", bytes.NewBuffer([]byte{'h', 'e', 'l', 'l', 'o'}))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(nil)
 	handler.ServeHTTP(rr, req)
@@ -156,7 +155,7 @@ func TestEmailHandler_FailedValidation(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/email", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/email", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(nil)
 	handler.ServeHTTP(rr, req)
@@ -192,7 +191,7 @@ func TestEmailHandler_Success(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/send", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/send", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(client)
 	handler.ServeHTTP(rr, req)
@@ -227,7 +226,7 @@ func TestEmailHandler_FaultyClient(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/send", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/send", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(client)
 	handler.ServeHTTP(rr, req)
@@ -264,7 +263,7 @@ func TestEmailHandler_TeapotClient(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/send", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/send", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(client)
 	handler.ServeHTTP(rr, req)
@@ -316,7 +315,7 @@ func TestEmailHandler_ProviderCodeMessage(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/send", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/send", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(client)
 	handler.ServeHTTP(rr, req)
