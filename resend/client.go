@@ -91,7 +91,7 @@ func (c *EmailClient) Send(ctx context.Context, email emailer.Email) error {
 	req.Header.Add("accept", "application/json")
 	req.Header.Add("content-type", "application/json")
 
-	resp, err := c.client.Do(req) //nolint:gosec //endpoint is already a constant
+	resp, err := c.client.Do(req)
 	if err != nil {
 		return fmt.Errorf("client.Do(%v): %v", req, err)
 	}

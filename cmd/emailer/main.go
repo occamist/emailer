@@ -33,6 +33,7 @@ const (
 
 func main() {
 	flag.Parse()
+	ctx := context.Background()
 
 	var logHandler slog.Handler
 	if *debugEnabled {
@@ -58,7 +59,7 @@ func main() {
 	}
 	portNum, err := strconv.Atoi(port)
 	if err != nil {
-		slog.LogAttrs(context.Background(), slog.LevelError, fmt.Sprintf("strconv.Atoi(%q)", port), slog.String("err", err.Error()))
+		slog.LogAttrs(ctx, slog.LevelError, fmt.Sprintf("strconv.Atoi(%q)", port), slog.String("err", err.Error()))
 		os.Exit(1)
 	}
 	provider, ok := os.LookupEnv("PROVIDER")
@@ -71,7 +72,6 @@ func main() {
 	httpClient := c.StandardClient()
 	httpClient.Timeout = 10 * time.Second
 
-	ctx := context.Background()
 	var sender emailer.Sender
 	cfg := emailer.Config{Key: key, Client: *httpClient}
 	switch {
@@ -110,7 +110,7 @@ func main() {
 	go func() {
 		slog.Debug(fmt.Sprintf("server started at port %d", portNum))
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			slog.LogAttrs(context.Background(), slog.LevelError, "srv.ListenAndServe()", slog.String("err", err.Error()))
+			slog.LogAttrs(ctx, slog.LevelError, "srv.ListenAndServe()", slog.String("err", err.Error()))
 		}
 	}()
 
@@ -118,9 +118,9 @@ func main() {
 	signal.Notify(wait, os.Interrupt)
 	<-wait
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
-		slog.LogAttrs(context.Background(), slog.LevelError, "srv.Shutdown()", slog.String("err", err.Error()))
+		slog.LogAttrs(ctx, slog.LevelError, "srv.Shutdown()", slog.String("err", err.Error()))
 	}
 }

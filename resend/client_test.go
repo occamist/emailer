@@ -2,7 +2,6 @@ package resend
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"errors"
 	"io"
@@ -26,7 +25,7 @@ func TestNew(t *testing.T) {
 }
 
 func TestEmailHandler_BrokenRequest(t *testing.T) {
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/email", bytes.NewBuffer([]byte{'h', 'e', 'l', 'l', 'o'}))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/email", bytes.NewBuffer([]byte{'h', 'e', 'l', 'l', 'o'}))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(nil)
 	handler.ServeHTTP(rr, req)
@@ -49,7 +48,7 @@ func TestEmailHandler_FailedValidation(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/email", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/email", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(nil)
 	handler.ServeHTTP(rr, req)
@@ -87,7 +86,7 @@ func TestEmailHandler_Success(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/send", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/send", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(client)
 	handler.ServeHTTP(rr, req)
@@ -122,7 +121,7 @@ func TestEmailHandler_FaultyClient(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/send", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/send", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(client)
 	handler.ServeHTTP(rr, req)
@@ -159,7 +158,7 @@ func TestEmailHandler_TeapotClient(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/send", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/send", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(client)
 	handler.ServeHTTP(rr, req)
@@ -206,7 +205,7 @@ func TestEmailHandler_ErrorMessage(t *testing.T) {
 		t.Fatalf("json.Marshal(%v): %v", email, err)
 	}
 
-	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, "/send", bytes.NewBuffer(raw))
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "/send", bytes.NewBuffer(raw))
 	rr := httptest.NewRecorder()
 	handler := emailer.HandlerFunc(client)
 	handler.ServeHTTP(rr, req)
