@@ -3,7 +3,6 @@
 [![Version](https://img.shields.io/github/tag/occamist/emailer.svg)](https://github.com/occamist/emailer/tags)
 [![CI Build](https://github.com/occamist/emailer/actions/workflows/test.yaml/badge.svg)](https://github.com/occamist/emailer/actions/workflows/test.yaml)
 [![GoDoc](https://godoc.org/github.com/occamist/emailer?status.svg)](https://godoc.org/github.com/occamist/emailer)
-[![Report Card](https://goreportcard.com/badge/github.com/occamist/emailer)](https://goreportcard.com/report/github.com/occamist/emailer)
 [![License](https://img.shields.io/github/license/occamist/emailer)](https://github.com/occamist/emailer/blob/main/LICENSE)
 [![Codecov](https://codecov.io/github/occamist/emailer/graph/badge.svg?token=Q1CKXYDTBJ)](https://codecov.io/github/occamist/emailer)
 
