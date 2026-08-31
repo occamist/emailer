@@ -15,29 +15,23 @@ as HTTP endpoint so the other microservices that belong to you can make email re
 
 - [X] Brevo (highly recommended)
 - [X] Resend
-- [ ] Postmark
-- [ ] Mailchimp
-- [ ] Mailtrap
-- [ ] Mailjet
-- [ ] Mailgun
-- [ ] Fastmail
 - [X] Sendgrid
 
-Note: Anything that only uses oauth2 like zoho does will not be implemented here for foreseeable future
+Note: Feel free to send PRs for any other providers that might be useful. I try to keep this surface small for maintainability and pragmatism of my life.
 
 ## Getting Started
 
-```shell
+Kick the server by after having `PROVIDER` and `API_KEY` env variables
+
+```sh
   export API_KEY=<SECRET_API_KEY>
   export PROVIDER=brevo
   go run ./cmd/emailer/main.go -debug
 ```
 
-Kick the server by after having `PROVIDER` and `API_KEY` env variables then run `go run ./cmd/emailer/main.go`
-
 or run with Docker
 
-```shell
+```sh
   docker run -d \
     -p 2345:5555 \
     -e API_KEY=<YOUR_SECRET_KEY> \
